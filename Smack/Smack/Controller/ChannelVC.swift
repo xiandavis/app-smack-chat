@@ -9,7 +9,10 @@
 import UIKit
 
 class ChannelVC: UIViewController {
-
+    
+    // STEP 8a. Outlets
+    @IBOutlet weak var loginBtn: UIButton! // to change 'Login' button title to user's handle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.revealViewController().rearViewRevealWidth = self.view.frame.size.width - 60 // STEP 5. experiement with different values here
@@ -18,5 +21,9 @@ class ChannelVC: UIViewController {
     }
 
     // Jonny deletes boilerplate code here
+    @IBAction func loginBtnPressed(_ sender: Any) { // STEP 8b.
+        performSegue(withIdentifier: TO_LOGIN, sender: nil) // STEP 10
+    }
+    
 
 }
