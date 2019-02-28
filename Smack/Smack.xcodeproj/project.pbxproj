@@ -16,6 +16,8 @@
 		C4EBFD93220D3E6B0048BA2B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4EBFD91220D3E6B0048BA2B /* Main.storyboard */; };
 		C4EBFD95220D3E6B0048BA2B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4EBFD94220D3E6B0048BA2B /* Assets.xcassets */; };
 		C4EBFD98220D3E6B0048BA2B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4EBFD96220D3E6B0048BA2B /* LaunchScreen.storyboard */; };
+		C4F3316422260E8200EF569F /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F3316322260E8200EF569F /* Constants.swift */; };
+		C4F331662227607800EF569F /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F331652227607800EF569F /* LoginVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		C4EBFDA022160A650048BA2B /* Smack-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Smack-Bridging-Header.h"; sourceTree = "<group>"; };
 		C4EBFDA122160A670048BA2B /* SWRevealViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		C4EBFDA222160A670048BA2B /* SWRevealViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
+		C4F3316322260E8200EF569F /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		C4F331652227607800EF569F /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +74,7 @@
 			children = (
 				C4525991221B623600D5044E /* ChatVC.swift */,
 				C4525993221B63CA00D5044E /* ChannelVC.swift */,
+				C4F331652227607800EF569F /* LoginVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -110,6 +115,7 @@
 		C4EBFD8C220D3E6B0048BA2B /* Smack */ = {
 			isa = PBXGroup;
 			children = (
+				C4F3316222260E1500EF569F /* Utilities */,
 				C4525990221B5F8500D5044E /* Model */,
 				C452598F221B5F7A00D5044E /* View */,
 				C452598E221B5F6B00D5044E /* Controller */,
@@ -131,6 +137,14 @@
 				C4EBFDA022160A650048BA2B /* Smack-Bridging-Header.h */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C4F3316222260E1500EF569F /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				C4F3316322260E8200EF569F /* Constants.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -255,9 +269,11 @@
 			files = (
 				C4525992221B623600D5044E /* ChatVC.swift in Sources */,
 				C4525994221B63CA00D5044E /* ChannelVC.swift in Sources */,
+				C4F331662227607800EF569F /* LoginVC.swift in Sources */,
 				C470C609221DDC9A0079AF1C /* GradientView.swift in Sources */,
 				C4EBFD8E220D3E6B0048BA2B /* AppDelegate.swift in Sources */,
 				C4525995221CAA8D00D5044E /* SWRevealViewController.m in Sources */,
+				C4F3316422260E8200EF569F /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
