@@ -21,5 +21,8 @@ class LoginVC: UIViewController {
     @IBAction func closePressed(_ sender: Any) { // STEP 11. ⌃dragged closeBtn from SB to here, set as IBAction
         dismiss(animated: true, completion: nil)
     }
+    @IBAction func createAccntBtnPressed(_ sender: Any) { // STEP 13.
+        performSegue(withIdentifier: TO_CREATE_ACCOUNT, sender: nil)
+    }
     
 }

@@ -12,6 +12,9 @@ class ChannelVC: UIViewController {
     
     // STEP 8a. Outlets
     @IBOutlet weak var loginBtn: UIButton! // to change 'Login' button title to user's handle
+    @IBAction func prepareForUnwind(segue: UIStoryboardSegue){ // STEP 14. Jonny adds this statement manually, unconnected
+        
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
