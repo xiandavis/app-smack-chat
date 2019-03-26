@@ -14,6 +14,7 @@
 		C4525995221CAA8D00D5044E /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4EBFDA222160A670048BA2B /* SWRevealViewController.m */; };
 		C45B05F122430159007033E2 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45B05F022430159007033E2 /* AuthService.swift */; };
 		C470C609221DDC9A0079AF1C /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C470C608221DDC9A0079AF1C /* GradientView.swift */; };
+		C4BD034E224A9E2E00757C2F /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4BD034D224A9E2E00757C2F /* RoundedButton.swift */; };
 		C4EBFD8E220D3E6B0048BA2B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4EBFD8D220D3E6B0048BA2B /* AppDelegate.swift */; };
 		C4EBFD93220D3E6B0048BA2B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4EBFD91220D3E6B0048BA2B /* Main.storyboard */; };
 		C4EBFD95220D3E6B0048BA2B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4EBFD94220D3E6B0048BA2B /* Assets.xcassets */; };
@@ -31,6 +32,7 @@
 		C4525993221B63CA00D5044E /* ChannelVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelVC.swift; sourceTree = "<group>"; };
 		C45B05F022430159007033E2 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		C470C608221DDC9A0079AF1C /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		C4BD034D224A9E2E00757C2F /* RoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
 		C4EBFD8A220D3E6B0048BA2B /* Smack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Smack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4EBFD8D220D3E6B0048BA2B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C4EBFD92220D3E6B0048BA2B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				C470C608221DDC9A0079AF1C /* GradientView.swift */,
+				C4BD034D224A9E2E00757C2F /* RoundedButton.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -282,6 +285,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4525992221B623600D5044E /* ChatVC.swift in Sources */,
+				C4BD034E224A9E2E00757C2F /* RoundedButton.swift in Sources */,
 				C4525994221B63CA00D5044E /* ChannelVC.swift in Sources */,
 				C41B62DC2228AEC700FE2BF4 /* CreateAccountVC.swift in Sources */,
 				C45B05F122430159007033E2 /* AuthService.swift in Sources */,
