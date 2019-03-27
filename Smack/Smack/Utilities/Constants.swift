@@ -16,6 +16,7 @@ typealias CompletionHandler = (_ Success: Bool) -> () // STEP 21. CompletionHand
 // URL Constants
 let BASE_URL = "http://localhost:3005/v1/" // STEP 23. ON MY OWN HERE-- Jonny uses URL for node.js on Heroku from setup options 1/2 that use mLab, but mLab accts are being migrated (avail Oct 2019). I downloaded the two video lessons to follow when I can create an acct. See /Users/xianAir/Movies/REWATCH around Oct 2019
 let URL_REGISTER = "\(BASE_URL)account/register"
+let URL_LOGIN = "\(BASE_URL)account/login" // STEP 30. red can be seen in mac chat api using Postman app
 
 // Segues
 let TO_LOGIN = "toLogin" // STEP 9.
@@ -26,3 +27,8 @@ let UNWIND = "unwindToChannel" // STEP 15.
 let TOKEN_KEY = "token" // STEP 18.
 let LOGGED_IN_KEY = "loggedIn"
 let USER_EMAIL = "userEmail"
+
+// Headers
+let HEADER = [ // STEP 32.
+    "Content-Type": "application/json; charset=utf-8"
+]
