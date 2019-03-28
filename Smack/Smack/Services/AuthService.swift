@@ -88,11 +88,12 @@ class AuthService { // STEP 17.
 //                }
                 
                 // Option 2, using SwiftyJSON lib. XCODE THREW AN ERROR HERE! The solution according to student Adrian: with error handling in Swift, you use the try keyword to identify places in your code that can throw errors.
-                guard let data = response.data else { return }
+                
+                guard let data = response.data else { return } // values assigned to var
                 do { // student Adrian enclosed in do statement
-                    let json = try JSON(data: data) // student Adrian added try keyword
-                    self.userEmail = json["user"].stringValue
-                    self.authToken = json["token"].stringValue
+                    let json = try JSON(data: data) // student Adrian added try keyword. var from guard statement used as argument in JSON obj, assigned to another var
+                    self.userEmail = json["user"].stringValue // parsing out values in JSON obj to properties of class AuthService()
+                    self.authToken = json["token"].stringValue // parsing out values in JSON obj to properties of class AuthService()
                 } catch { // student Adrian added catch statement and print statement below
                     debugPrint(error)
                 }
@@ -104,5 +105,47 @@ class AuthService { // STEP 17.
                 debugPrint(response.result.error as Any)
             }
         }
+    }
+    
+    func createUser(name: String, email: String, avatarName: String, avatarColor: String, completion: @escaping CompletionHandler) { // STEP 41.
+        
+        let lowerCaseEmail = email.lowercased() // format email for http request
+        
+        let body: [String: Any] = [ // format below data for http request
+            "name": name,
+            "email": lowerCaseEmail,
+            "avatarName": avatarName,
+            "avatarColor": avatarColor // elements the same as requested from mac chat api as seen in Postman
+        ]
+        
+        let header = [ // format header for http request
+            "Authorization": "Bearer \(AuthService.instance.authToken)", // security reqd to add user
+            "Content-Type": "application/json; charset=utf-8" // copied from Constants.swift
+        ]
+        
+        Alamofire.request(URL_USER_ADD, method: .post, parameters: body, encoding: JSONEncoding.default, headers: header).responseJSON { (response) in // STEP 43. the actual http request
+            
+            if response.result.error == nil { // success means we get data from api that we assign to a JSON obj and parse it out to corresponding properties of userDataService()
+                guard let data = response.data else { return } // getting JSON as a response
+                do { // added from student Adrian
+                    let json = try JSON(data: data) // try added from student Adrian
+                    let id = json["_id"].stringValue // _id based on result from api, displayed in Postman
+                    let color = json["avatarColor"].stringValue
+                    let avatarName = json["avatarName"].stringValue
+                    let email = json["email"].stringValue
+                    let name = json["name"].stringValue // parsing out values in JSON obj to properties of FUNC setUserData() below
+                    
+                    UserDataService.instance.setUserData(id: id, color: color, avatarName: avatarName, email: email, name: name) // values sent to populate public private(set) vars in CLASS UserDataService.swift where they can then be used througout the app!
+                    completion(true)
+                } catch { // this and print below added from student Adrian
+                    debugPrint(error)
+                }
+                
+            } else {
+                completion(false)
+                debugPrint(response.result.error as Any)
+            }
+        }
+        
     }
 }
