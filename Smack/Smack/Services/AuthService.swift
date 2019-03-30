@@ -129,13 +129,13 @@ class AuthService { // STEP 17.
                 guard let data = response.data else { return } // getting JSON as a response
                 do { // added from student Adrian
                     let json = try JSON(data: data) // try added from student Adrian
-                    let id = json["_id"].stringValue // _id based on result from api, displayed in Postman
+                    let id = json["_id"].stringValue // _id based on result from api, displayed in Postman. Unwraps optional; if it doesn't exist, it will not crash because SwiftyJSON will assign it an empty string value.
                     let color = json["avatarColor"].stringValue
                     let avatarName = json["avatarName"].stringValue
                     let email = json["email"].stringValue
                     let name = json["name"].stringValue // parsing out values in JSON obj to properties of FUNC setUserData() below
                     
-                    UserDataService.instance.setUserData(id: id, color: color, avatarName: avatarName, email: email, name: name) // values sent to populate public private(set) vars in CLASS UserDataService.swift where they can then be used througout the app!
+                    UserDataService.instance.setUserData(id: id, color: color, avatarName: avatarName, email: email, name: name) // values used to set public private(set) vars in CLASS UserDataService.swift where they can then be used througout the app!
                     completion(true)
                 } catch { // this and print below added from student Adrian
                     debugPrint(error)
@@ -146,6 +146,5 @@ class AuthService { // STEP 17.
                 debugPrint(response.result.error as Any)
             }
         }
-        
     }
 }
