@@ -23,6 +23,7 @@ let URL_USER_ADD = "\(BASE_URL)user/add" // STEP 42. same comment as above
 let TO_LOGIN = "toLogin" // STEP 9.
 let TO_CREATE_ACCOUNT = "toCreateAccount" // STEP 12.
 let UNWIND = "unwindToChannel" // STEP 15.
+let TO_AVATAR_PICKER = "toAvatarPicker" // STEP 47.
 
 // User Defaults
 let TOKEN_KEY = "token" // STEP 18.

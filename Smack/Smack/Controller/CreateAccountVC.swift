@@ -27,7 +27,8 @@ class CreateAccountVC: UIViewController {
     }
 
     // Jonny deletes boilerplate code
-    @IBAction func pickAvatarPressed(_ sender: Any) {
+    @IBAction func pickAvatarPressed(_ sender: Any) { // STEP 48.
+        performSegue(withIdentifier: TO_AVATAR_PICKER, sender: nil)
     }
     @IBAction func pickBGColorPressed(_ sender: Any) {
     }

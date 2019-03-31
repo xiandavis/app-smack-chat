@@ -19,15 +19,15 @@ class RoundedButton: UIButton {
     }
     
     override func awakeFromNib() { // Jonny gets autocompletion to bring this statement up by typing 'awakeFromNib'
-        self.setupView() // not defined yet! See below
+        self.setUpView() // not defined yet! See below
     }
     
     override func prepareForInterfaceBuilder() { // STEP 28.
         super.prepareForInterfaceBuilder()
-        self.setupView()
+        self.setUpView()
     }
     
-    func setupView() {
+    func setUpView() {
         self.layer.cornerRadius = cornerRadius // STEP 27b.
     }
 
