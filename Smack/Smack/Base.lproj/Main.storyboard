@@ -506,7 +506,7 @@
                                 </constraints>
                                 <segments>
                                     <segment title="Dark"/>
-                                    <segment title="Second"/>
+                                    <segment title="Light"/>
                                 </segments>
                                 <color key="tintColor" red="0.35686274509999999" green="0.62352941179999999" blue="0.79607843140000001" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>

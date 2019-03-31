@@ -22,8 +22,13 @@ class CreateAccountVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-
+    }
+    
+    override func viewDidAppear(_ animated: Bool) { // STEP 60. display selected avatar to account, default should already be an empty string
+        if UserDataService.instance.avatarName != "" {
+            userImg.image = UIImage(named: UserDataService.instance.avatarName)
+            avatarName = UserDataService.instance.avatarName
+        }
     }
 
     // Jonny deletes boilerplate code
