@@ -19,6 +19,12 @@ let URL_REGISTER = "\(BASE_URL)account/register"
 let URL_LOGIN = "\(BASE_URL)account/login" // STEP 30. red can be seen in mac chat api using Postman app
 let URL_USER_ADD = "\(BASE_URL)user/add" // STEP 42. same comment as above
 
+// Colors
+let smackPurplePlaceholder = #colorLiteral(red: 0.3254901961, green: 0.4215201139, blue: 0.7752227187, alpha: 0.5) // STEP 68. previously used darker color [literal], 50% opacity
+
+// Notification Constants
+let NOTIF_USER_DATA_DID_CHANGE = Notification.Name("notifUserDataChanged") // STEP 77.
+
 // Segues
 let TO_LOGIN = "toLogin" // STEP 9.
 let TO_CREATE_ACCOUNT = "toCreateAccount" // STEP 12.
