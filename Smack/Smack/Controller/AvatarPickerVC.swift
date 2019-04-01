@@ -42,11 +42,11 @@ class AvatarPickerVC: UIViewController, UICollectionViewDelegate, UICollectionVi
     }
 
     // Jonny deletes boilerplate code
-    @IBAction func backPressed(_ sender: Any) { // STEP 49
+    @IBAction func backPressed(_ sender: Any) { // STEP 49.
         dismiss(animated: true, completion: nil)
     }
     @IBAction func segmentControlChanged(_ sender: Any) {
-        // STEP 59. Quiz: A. Need a check to see which segment is selected, B. Need to change avatarType, C. Need to do *something* to reload the data.
+        // STEP 59. Quiz: A. Need a check to see which segment is selected, B. Need to change avatarType, C. Need to do *something* to reload the data
         if segmentControl.selectedSegmentIndex == 0 { // A. I tried segmentControl.isEnabledForSegment(at: 1)
             avatarType = .dark // this is default so I thought I didn't need; would need if light was already active tho, couldn't change back to dark
         } else {

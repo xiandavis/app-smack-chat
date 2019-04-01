@@ -47,6 +47,7 @@ class CreateAccountVC: UIViewController {
         let b = CGFloat(arc4random_uniform(255)) / 255
         
         bgColor = UIColor(red: r, green: g, blue: b, alpha: 1) // CGFloats, 1 means no transparency
+        avatarColor = "[\(r), \(g), \(b), 1]" // STEP 83. Jonny forgot to add this
         UIView.animate(withDuration: 0.2) { // STEP 66. Was withDuration: TimeInterval, animations: ()  -> Void, Jonny deleted what he didn't need
             self.userImg.backgroundColor = self.bgColor // self.[bgColor] because inside inclosure
         }

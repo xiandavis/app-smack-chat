@@ -13,7 +13,7 @@ class GradientView: UIView {
 
     // Jonny deletes boilerplate code here
     
-    @IBInspectable var topColor: UIColor = #colorLiteral(red: 0.2901960784, green: 0.3019607843, blue: 0.8470588235, alpha: 1) { // STEP 7 (color literal portion only). Clicked Other... button in popup window > Color Sliders > RGB Sliders, entered Hex Color #. IBInspectable change inside SB dynamically
+    @IBInspectable var topColor: UIColor = #colorLiteral(red: 0.2901960784, green: 0.3019607843, blue: 0.8470588235, alpha: 1) { // STEP 7. (color literal portion only). Clicked Other... button in popup window > Color Sliders > RGB Sliders, entered Hex Color #. IBInspectable change inside SB dynamically
         didSet {
             self.setNeedsLayout()
         }

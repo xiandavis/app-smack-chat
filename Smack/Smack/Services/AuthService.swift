@@ -64,8 +64,8 @@ class AuthService { // STEP 17.
         } // was url: URLConvertible, method: HTTPMethod, parameters; Parameters?, encoding: ParameterEncoding, headers: HTTPHeaders? - HTTPMethod for POST/GET/etc, Parameters? for the body (email/pw/etc), HTTPHeaders? for the header
     }
     
-    func loginUser(email: String, password: String, completion: @escaping CompletionHandler) { // STEP 31a. Since this func requests the same data as registerUser() does, Jonny simply copies the assignment statements and pastes them below, word Login replaces Register in their respective comments
-        let lowerCaseEmail = email.lowercased()
+    func loginUser(email: String, password: String, completion: @escaping CompletionHandler) { // STEP 29. Since this func requests the same data as registerUser() does, Jonny simply copies the assignment statements and pastes them below, word Login replaces Register in their respective comments
+        let lowerCaseEmail = email.lowercased() // STEP 31a.
         
         // STEP 35. Jonny moves header assignment statement into Constants.swift
 
