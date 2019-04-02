@@ -25,7 +25,14 @@ class ChannelVC: UIViewController {
 
     // Jonny deletes boilerplate code here
     @IBAction func loginBtnPressed(_ sender: Any) { // STEP 8b.
-        performSegue(withIdentifier: TO_LOGIN, sender: nil) // STEP 10.
+        if AuthService.instance.isLoggedIn { // STEP 87.
+            // Show profile page (no segue like in SB, so must present manually)
+            let profile = ProfileVC() // instantiate it
+            profile.modalPresentationStyle = .custom // set modal presentation style
+            present(profile, animated: true, completion: nil) // present it. Was (viewControllerToPresent: UIViewController, animated: Bool, completion: (() -> Void)?)
+        } else {
+            performSegue(withIdentifier: TO_LOGIN, sender: nil) // STEP 10. Statement created STEP 88. Statement moved inside if/else
+        }
     }
     
     @objc func userDataDidChange(_ notif: Notification) { // STEP 80. Jonny adds @objc, don't know how he knows to...
