@@ -23,7 +23,7 @@ class ChannelVC: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(ChannelVC.userDataDidChange(_:)), name: NOTIF_USER_DATA_DID_CHANGE, object: nil) // STEP 79. Observer is listening for our notification triggered after successfully creating a user, when we hear it we call ChannelVC.userDataDidChange(_:). Was (observer: Any, selector: Selector, name: NSNotification.Name?, object: Any?) -- before filling in selector, Jonny defines func userDataDidChange() below
     }
     
-    override func viewDidAppear(_ animated: Bool) { // STEP 108. Jonny notes that ChannelVC [this View] may not have instantiated when our NOTIF_USER_DATA_DID_CHANGE notification fired off, we need to do a check using setUpUserInfo() below
+    override func viewDidAppear(_ animated: Bool) { // STEP 108. Jonny notes that ChannelVC [this View] may not have been instantiated when our NOTIF_USER_DATA_DID_CHANGE notification fired off, so we need to do a check and setup the user data accordingly using func setUpUserInfo(), ~24 line numbers down
         setUpUserInfo() // STEP 114.
     }
 

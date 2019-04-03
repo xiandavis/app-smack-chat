@@ -33,7 +33,7 @@ class LoginVC: UIViewController {
         spinner.isHidden = false // STEP 106.
         spinner.startAnimating()
         
-        guard let email = usernameTxt.text , usernameTxt.text != "" else { return } // Jonny originally used userName instead of email, but realized he named vars poorly
+        guard let email = usernameTxt.text , usernameTxt.text != "" else { return } // Jonny originally used userName instead of email in this statement, but realized he named vars poorly. Perhaps we will change placeholder on login screen to read email instead of username?
         guard let pass = passwordTxt.text , passwordTxt.text != "" else { return }
         
         AuthService.instance.loginUser(email: email, password: pass) { (success) in
@@ -51,7 +51,7 @@ class LoginVC: UIViewController {
         
     }
     
-    func setUpView() { // STEP 104. Jonny copies name & email from same func inside CreateAccountVC, replaces latter with password
+    func setUpView() { // STEP 104. Jonny copies name & email from same func inside CreateAccountVC, replaces latter with password. Perhaps instead of usernameTxt should be emailTxt and change placeholder on Login screen?
         spinner.isHidden = true
         usernameTxt.attributedPlaceholder = NSAttributedString(string: "username", attributes: [NSAttributedStringKey.foregroundColor: smackPurplePlaceholder]) // STEP 69. color of placeholder text cannot be changed from IB directly
         passwordTxt.attributedPlaceholder = NSAttributedString(string: "password", attributes: [NSAttributedStringKey.foregroundColor: smackPurplePlaceholder]) // STEP 71. color of placeholder text cannot be changed from IB directly
