@@ -53,7 +53,7 @@ class AuthService { // STEP 17.
             "password": password // STEP 22b. replacates same elements seen in Postman app > mac-chat-api > 1.Auth Register User, under BODY
         ]
         
-        Alamofire.request(URL_REGISTER, method: .post, parameters: body, encoding: JSONEncoding.default, headers: HEADER).responseString { (response) in // STEP 24a. STEP 34. replaces param header with constant HEADER
+        Alamofire.request(URL_REGISTER, method: .post, parameters: body, encoding: JSONEncoding.default, headers: HEADER).responseString { (response) in // STEP 24a.,  STEP 34. replaces param header with constant HEADER
             
             if response.result.error == nil {
                 completion(true) // STEP 24b. same completion as registerUser(email, password, COMPLETION) above
@@ -68,7 +68,7 @@ class AuthService { // STEP 17.
         let lowerCaseEmail = email.lowercased() // STEP 31a.
         
         // STEP 35. Jonny moves header assignment statement into Constants.swift
-
+        
         let body: [String: Any] = [
             "email": lowerCaseEmail,
             "password": password // STEP 31b. replacates same elements seen in Postman app > mac-chat-api > 1.Auth Login User, under BODY
@@ -78,16 +78,16 @@ class AuthService { // STEP 17.
             
             if response.result.error == nil {
                 // STEP 38. Jonny comments out Option 1 (good to know)
-//                if let json = response.result.value as? Dictionary<String, Any> {
-//                    if let email = json["user"] as? String {
-//                        self.userEmail = email // looking at result shown in Postman app, we know the api returns result of type dictionary with a key of type String (user) and a value of type Any (token)
-//                    }
-//                    if let token = json["token"] as? String {
-//                        self.authToken = token
-//                    }
-//                }
+                //                if let json = response.result.value as? Dictionary<String, Any> {
+                //                    if let email = json["user"] as? String {
+                //                        self.userEmail = email // looking at result shown in Postman app, we know the api returns result of type dictionary with a key of type String (user) and a value of type Any (token)
+                //                    }
+                //                    if let token = json["token"] as? String {
+                //                        self.authToken = token
+                //                    }
+                //                }
                 
-                // Option 2, using SwiftyJSON lib. XCODE THREW AN ERROR HERE! The solution according to student Adrian: with error handling in Swift, you use the try keyword to identify places in your code that can throw errors.
+                // Option 2, using SwiftyJSON lib. XCODE THREW AN ERROR HERE! The solution according to student Adrian: with error handling in Swift, you use the try keyword to identify places in your code that can throw errors, S6:L73 (see Q&A thread started by Donald, Error. Wanting me to use 'try')
                 
                 guard let data = response.data else { return } // values assigned to var
                 do { // student Adrian enclosed in do statement
@@ -107,7 +107,7 @@ class AuthService { // STEP 17.
         }
     }
     
-    func createUser(name: String, email: String, avatarName: String, avatarColor: String, completion: @escaping CompletionHandler) { // STEP 41.
+    func createUser(name: String, email: String, avatarName: String, avatarColor: String, completion: @escaping CompletionHandler) { // STEP 41a.
         
         let lowerCaseEmail = email.lowercased() // format email for http request
         
@@ -118,33 +118,47 @@ class AuthService { // STEP 17.
             "avatarColor": avatarColor // elements the same as requested from mac chat api as seen in Postman
         ]
         
-        let header = [ // format header for http request
-            "Authorization": "Bearer \(AuthService.instance.authToken)", // security reqd to add user
-            "Content-Type": "application/json; charset=utf-8" // copied from Constants.swift
-        ]
-        
-        Alamofire.request(URL_USER_ADD, method: .post, parameters: body, encoding: JSONEncoding.default, headers: header).responseJSON { (response) in // STEP 43. the actual http request
+        Alamofire.request(URL_USER_ADD, method: .post, parameters: body, encoding: JSONEncoding.default, headers: BEARER_HEADER).responseJSON { (response) in // STEP 43a. the actual http request, STEP 99. header replaced with Constant
             
-            if response.result.error == nil { // success means we get data from api that we assign to a JSON obj and parse it out to corresponding properties of userDataService()
+            if response.result.error == nil { // STEP 43b. success means we get data from api that we assign to a JSON obj and parse it out to corresponding properties of userDataService()
                 guard let data = response.data else { return } // getting JSON as a response
-                do { // added from student Adrian
-                    let json = try JSON(data: data) // try added from student Adrian
-                    let id = json["_id"].stringValue // _id based on result from api, displayed in Postman. Unwraps optional; if it doesn't exist, it will not crash because SwiftyJSON will assign it an empty string value.
-                    let color = json["avatarColor"].stringValue
-                    let avatarName = json["avatarName"].stringValue
-                    let email = json["email"].stringValue
-                    let name = json["name"].stringValue // parsing out values in JSON obj to properties of FUNC setUserData() below
-                    
-                    UserDataService.instance.setUserData(id: id, color: color, avatarName: avatarName, email: email, name: name) // values used to set public private(set) vars in CLASS UserDataService.swift where they can then be used througout the app!
-                    completion(true)
-                } catch { // this and print below added from student Adrian
-                    debugPrint(error)
-                }
+                self.setUserInfo(data: data) // STEP 103.
+                completion(true)
                 
             } else {
                 completion(false)
                 debugPrint(response.result.error as Any)
             }
+        }
+    }
+    
+    func findUserByEmail(completion: @escaping CompletionHandler) { // STEP 96. Presently, the only time we receive result from API containing complete user info is when we post Create/ Add User. We want complete user info after user login; we can do this with API func /user/byEmail/name@domain.com (see Find User By Email in Postman app)
+        Alamofire.request("\(URL_USER_BY_EMAIL)\(userEmail)", method: .get, parameters: nil, encoding: JSONEncoding.default, headers: BEARER_HEADER).responseJSON { (response) in // STEP 100.
+            
+            if response.result.error == nil { // success means we get data from api that we assign to a JSON obj and parse it out to corresponding properties of userDataService()
+                guard let data = response.data else { return } // getting JSON as a response
+                self.setUserInfo(data: data)
+                completion(true)
+                
+            } else {
+                completion(false)
+                debugPrint(response.result.error as Any)
+            }
+        }
+    }
+    
+    func setUserInfo(data: Data) { // STEP 101.
+        do { // STEP 43c. CREATED closure in createUser() based on student Adrian's solution in loginUser() S6:L73, STEP 102. MOVED closure here
+            let json = try JSON(data: data) // STEP 43d. from student Adrian's solution in loginUser()
+            let id = json["_id"].stringValue // _id based on result from api, displayed in Postman. Unwraps optional; if it doesn't exist, it will not crash because SwiftyJSON will assign it an empty string value.
+            let color = json["avatarColor"].stringValue
+            let avatarName = json["avatarName"].stringValue
+            let email = json["email"].stringValue
+            let name = json["name"].stringValue // parsing out values in JSON obj to properties of FUNC setUserData() below
+            
+            UserDataService.instance.setUserData(id: id, color: color, avatarName: avatarName, email: email, name: name) // values used to set public private(set) vars in CLASS UserDataService.swift where they can then be used througout the app!
+        } catch { // this and print below from student Adrian's solution in loginUser()
+            debugPrint(error)
         }
     }
 }

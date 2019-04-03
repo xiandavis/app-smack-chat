@@ -22,6 +22,10 @@ class ChannelVC: UIViewController {
         self.revealViewController().rearViewRevealWidth = self.view.frame.size.width - 60 // STEP 5. experiement with different values here
         NotificationCenter.default.addObserver(self, selector: #selector(ChannelVC.userDataDidChange(_:)), name: NOTIF_USER_DATA_DID_CHANGE, object: nil) // STEP 79. Observer is listening for our notification triggered after successfully creating a user, when we hear it we call ChannelVC.userDataDidChange(_:). Was (observer: Any, selector: Selector, name: NSNotification.Name?, object: Any?) -- before filling in selector, Jonny defines func userDataDidChange() below
     }
+    
+    override func viewDidAppear(_ animated: Bool) { // STEP 108. Jonny notes that ChannelVC [this View] may not have instantiated when our NOTIF_USER_DATA_DID_CHANGE notification fired off, we need to do a check using setUpUserInfo() below
+        setUpUserInfo() // STEP 114.
+    }
 
     // Jonny deletes boilerplate code here
     @IBAction func loginBtnPressed(_ sender: Any) { // STEP 8b.
@@ -36,11 +40,15 @@ class ChannelVC: UIViewController {
     }
     
     @objc func userDataDidChange(_ notif: Notification) { // STEP 80. Jonny adds @objc, don't know how he knows to...
+        setUpUserInfo() // STEP 113.
+    }
+    
+    func setUpUserInfo() { // STEP 109.
         if AuthService.instance.isLoggedIn { // Updates user image and name once logged in
             loginBtn.setTitle(UserDataService.instance.name, for: .normal)
-            userImg.image = UIImage(named: UserDataService.instance.avatarName) // STEP 82a.
-            userImg.backgroundColor = UserDataService.instance.returnUIColor(components: UserDataService.instance.avatarColor) // STEP 85.
-        } else { // STEP 82b.
+            userImg.image = UIImage(named: UserDataService.instance.avatarName) // STEP 82a. CREATED statement in userDataDidChange() above, STEP 110. MOVED statement here
+            userImg.backgroundColor = UserDataService.instance.returnUIColor(components: UserDataService.instance.avatarColor) // STEP 85. CREATED statement in userDataDidChange() above, STEP 111. MOVED statement here
+        } else { // STEP 82b. CREATED statement in userDataDidChange() above, STEP 112. MOVED statement here
             loginBtn.setTitle("Login", for: .normal) // set back to default image and name after logging out
             userImg.image = UIImage(named: "menuProfileIcon")
             userImg.backgroundColor = UIColor.clear

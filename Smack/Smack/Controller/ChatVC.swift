@@ -19,9 +19,12 @@ class ChatVC: UIViewController {
         self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer()) // STEP 4. gestureRecognizer: UIGestureRecognizer is self.revealViewController().panGestureRecognizer(), panGestureRecognizer is for slide motion
         self.view.addGestureRecognizer(self.revealViewController().tapGestureRecognizer()) // same as above, tapGestureRecognizer is for tap motion
         
+        if AuthService.instance.isLoggedIn { // STEP 107. Jonny notes than when we exit app, it still thinks we are logged in but doesn’t show all user info
+            AuthService.instance.findUserByEmail(completion: { (success) in
+                NotificationCenter.default.post(name: NOTIF_USER_DATA_DID_CHANGE, object: nil)
+            })
+        }
         
-        
-        // Do any additional setup after loading the view.
     }
     
     // Jonny deletes boilerplate code here

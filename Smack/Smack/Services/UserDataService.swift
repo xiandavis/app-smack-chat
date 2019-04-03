@@ -12,7 +12,7 @@ class UserDataService { // STEP 40.
     
     static let instance = UserDataService() // a singleton (see coder swag > DataService.swift, section5: lesson 57)
     
-    public private(set) var id = "" // encapsulating data, other classes can get value from public var but they cannot set/modify the value of a private var. See see Coder Swag proj > CATEGORY.SWIFT, STEP 4 in S5:L57 for Mark's variation of this statement
+    public private(set) var id = "" // encapsulating data, other classes can get value from public var but they cannot set/modify the value of a private var. See see Coder Swag proj > CATEGORY.SWIFT, S5:L57 for Mark's variation of this statement
     public private(set) var avatarColor = "" // these elements can be seen in JSON dictionary result using Postman app
     public private(set) var avatarName = ""
     public private(set) var email = ""
