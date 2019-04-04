@@ -8,17 +8,20 @@
 
 import UIKit
 
-class ChannelVC: UIViewController {
+class ChannelVC: UIViewController, UITableViewDelegate, UITableViewDataSource { // STEP 127. Add protocols UITableViewDelegate and UITableViewDataSource
     
     // STEP 8a. Outlets
     @IBOutlet weak var loginBtn: UIButton! // to change 'Login' button title to user's handle
     @IBOutlet weak var userImg: CircleImage! // STEP 81.
+    @IBOutlet weak var tableView: UITableView! // STEP 126.
     @IBAction func prepareForUnwind(segue: UIStoryboardSegue){ // STEP 14. Jonny adds this statement manually, unconnected. Perhaps this should be moved down with other IBAction?
         
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.delegate = self // STEP 128.
+        tableView.dataSource = self
         self.revealViewController().rearViewRevealWidth = self.view.frame.size.width - 60 // STEP 5. experiement with different values here
         NotificationCenter.default.addObserver(self, selector: #selector(ChannelVC.userDataDidChange(_:)), name: NOTIF_USER_DATA_DID_CHANGE, object: nil) // STEP 79. Observer is listening for our notification triggered after successfully creating a user, when we hear it we call ChannelVC.userDataDidChange(_:). Was (observer: Any, selector: Selector, name: NSNotification.Name?, object: Any?) -- before filling in selector, Jonny defines func userDataDidChange() below
     }
@@ -53,5 +56,23 @@ class ChannelVC: UIViewController {
             userImg.image = UIImage(named: "menuProfileIcon")
             userImg.backgroundColor = UIColor.clear
         }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell { // STEP 129. 1st req't of protocol UITableViewDataSource
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "channelCell", for: indexPath) as? ChannelCell {
+            let channel = MessageService.instance.channels[indexPath.row]
+            cell.configureCell(channel: channel)
+            return cell
+        } else {
+            return UITableViewCell() // otherwise return empty UITableViewCell
+        }
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int { // 2nd req't of protocol UITableViewDataSource
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { // 3rd req't of protocol UITableViewDataSource
+        return MessageService.instance.channels.count // however many channels there are
     }
 }

@@ -132,7 +132,7 @@
                                 <rect key="frame" x="0.0" y="147" width="375" height="556"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="QJd-cr-pbN">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="channelCell" id="QJd-cr-pbN" customClass="ChannelCell" customModule="Smack" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="QJd-cr-pbN" id="OOd-Sr-1hN">
@@ -152,6 +152,9 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <connections>
+                                            <outlet property="channelName" destination="eLk-G7-oUe" id="TtB-fd-5Rh"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
@@ -177,6 +180,7 @@
                     </view>
                     <connections>
                         <outlet property="loginBtn" destination="SbJ-JI-glb" id="A3k-4q-d54"/>
+                        <outlet property="tableView" destination="sUd-6x-gfY" id="RBg-SN-Hml"/>
                         <outlet property="userImg" destination="soG-Xa-sZ5" id="b3Z-lR-mID"/>
                         <segue destination="teR-EY-Pkw" kind="show" identifier="toLogin" id="18m-fx-vtF"/>
                     </connections>
