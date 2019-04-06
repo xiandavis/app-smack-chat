@@ -110,6 +110,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jjO-li-eH5">
                                 <rect key="frame" x="281" y="105" width="22" height="22"/>
                                 <state key="normal" image="addChannelButton"/>
+                                <connections>
+                                    <action selector="addChannelPressed:" destination="00S-E3-qoX" eventType="touchUpInside" id="4Vl-g4-81S"/>
+                                </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="menuProfileIcon" translatesAutoresizingMaskIntoConstraints="NO" id="soG-Xa-sZ5" customClass="CircleImage" customModule="Smack" customModuleProvider="target">
                                 <rect key="frame" x="16" y="723" width="75" height="75"/>
@@ -222,7 +225,7 @@
                                     <action selector="closePressed:" destination="teR-EY-Pkw" eventType="touchUpInside" id="99C-sJ-U0o"/>
                                 </connections>
                             </button>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="0ns-cM-0ij">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="0ns-cM-0ij">
                                 <rect key="frame" x="62.666666666666671" y="184" width="250" height="86"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="i1h-Ji-lCs">
@@ -344,7 +347,7 @@
                                     <action selector="closePressed:" destination="Hb6-IH-qMK" eventType="touchUpInside" id="zbK-Bg-L9g"/>
                                 </connections>
                             </button>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="zeN-1w-Coh">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="zeN-1w-Coh">
                                 <rect key="frame" x="62" y="146.66666666666669" width="250" height="136.00000000000006"/>
                                 <subviews>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="v8J-8B-eRr">
@@ -513,11 +516,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xm4-RX-17b">
-                                <rect key="frame" x="16" y="52" width="30" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="HBm-6U-o8M"/>
-                                    <constraint firstAttribute="width" constant="30" id="ib3-RO-DOf"/>
-                                </constraints>
+                                <rect key="frame" x="16" y="52" width="28" height="28"/>
                                 <state key="normal" image="smackBack"/>
                                 <connections>
                                     <action selector="backPressed:" destination="PEv-Yl-CkY" eventType="touchUpInside" id="Xrw-rl-Boy"/>
@@ -538,7 +537,7 @@
                                 </connections>
                             </segmentedControl>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Rxy-W3-oub">
-                                <rect key="frame" x="0.0" y="102" width="375" height="676"/>
+                                <rect key="frame" x="0.0" y="100" width="375" height="678"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="GiD-Ei-tVY">
                                     <size key="itemSize" width="100" height="100"/>

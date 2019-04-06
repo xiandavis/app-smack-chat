@@ -31,6 +31,12 @@ class ChannelVC: UIViewController, UITableViewDelegate, UITableViewDataSource { 
     }
 
     // Jonny deletes boilerplate code here
+    @IBAction func addChannelPressed(_ sender: Any) { // STEP 136.
+        let addChannel = AddChannelVC()
+        addChannel.modalPresentationStyle = .custom
+        present(addChannel, animated: true, completion: nil)
+    }
+    
     @IBAction func loginBtnPressed(_ sender: Any) { // STEP 8b.
         if AuthService.instance.isLoggedIn { // STEP 87.
             // Show profile page (no segue like in SB, so must present manually)

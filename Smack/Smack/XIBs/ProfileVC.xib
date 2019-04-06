@@ -41,7 +41,7 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <state key="normal" image="closeButton"/>
                             <connections>
-                                <action selector="closeModalPressed:" destination="-1" eventType="touchUpInside" id="PJ7-2X-gni"/>
+                                <action selector="closeModalPressed:" destination="-1" eventType="touchUpInside" id="F4y-PH-ud7"/>
                             </connections>
                         </button>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="wMa-Hg-meI">

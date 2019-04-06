@@ -22,7 +22,7 @@ let URL_USER_BY_EMAIL = "\(BASE_URL)user/byEmail/" // STEP 97. Postman URL shows
 let URL_GET_CHANNELS = "\(BASE_URL)channel/" // STEP 118.
 
 // Colors
-let smackPurplePlaceholder = #colorLiteral(red: 0.3254901961, green: 0.4215201139, blue: 0.7752227187, alpha: 0.5) // STEP 68. previously used darker color [literal], 50% opacity
+let smackPurplePlaceholder = #colorLiteral(red: 0.3254901961, green: 0.4215201139, blue: 0.7752227187, alpha: 0.5) // STEP 68. previously used hex # 4254B9 [literal], 50% opacity
 
 // Notification Constants
 let NOTIF_USER_DATA_DID_CHANGE = Notification.Name("notifUserDataChanged") // STEP 77.
