@@ -25,6 +25,13 @@ class AddChannelVC: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     @IBAction func createChannelPressed(_ sender: Any) {
+        guard let channelName = nameTxt.text , nameTxt.text != "" else { return } // STEP 141.
+        guard let channelDesc = chanDesc.text else { return } // may not have description
+        SocketService.instance.addChannel(channelName: channelName, channelDescription: channelDesc) { (success) in
+            if success {
+                self.dismiss(animated: true, completion: nil)
+            }
+        }
     }
     
     func setUpView() { // STEP 132. Created statement, STEP 134. After defining closeTap() below, can use it as selector
