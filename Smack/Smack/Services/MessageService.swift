@@ -23,25 +23,30 @@ class MessageService {
                 guard let data = response.data else { return }
                 
                 // STEP 122. JSON parsing in Swift 4 - see Channel.swift for info on Decode protocol
-                do {
-                    self.channels = try JSONDecoder().decode([Channel].self, from: data)
-                } catch let error {
-                    debugPrint(error as Any)
-                }
-                print(self.channels) // Jonny tests Swift 4 JSON parsing - see ChatVC.swift for Jonny calling this func to test
-                
-//                // JSON parsing in <= Swift 3. Jonny prefers parsing this way because he has control of how his models i.e. Channel are structured
-//                if let json = JSON(data: data).array { // uses SwiftyJSON to create a JSON object of type array, because the response from api is an array
-//                    for item in json { // loop [item number of times] through array
-//                        let name = item["name"].stringValue
-//                        let channelDescription = item["description"].stringValue
-//                        let id = item["_id"].stringValue // strings can be seen in api response using Postman app (presently I am Unauthorized for some reason)
-//                        let channel = Channel(channelTitle: name, channelDescription: channelDescription, id: id) // builds individual channel array
-//                        self.channels.append(channel) // adds individual channel array to array of channels
-//                    }
-//                    print(self.channels[0].name) // Jonny testing JSON parsing the above way
-//                    completion(true)
+//                do {
+//                    self.channels = try JSONDecoder().decode([Channel].self, from: data)
+//                } catch let error {
+//                    debugPrint(error as Any)
 //                }
+//                print(self.channels) // Jonny tests Swift 4 JSON parsing - see ChatVC.swift for Jonny calling this func to test
+                
+                
+                // JSON parsing in <= Swift 3. Jonny prefers parsing this way because he has control of how his models i.e. Channel are structured
+                do {
+                    if let json = try JSON(data: data).array { // uses SwiftyJSON to create a JSON object of type array, because the response from api is an array
+                        for item in json { // loop [item number of times] through array
+                            let name = item["name"].stringValue
+                            let channelDescription = item["description"].stringValue
+                            let id = item["_id"].stringValue // strings can be seen in api response using Postman app (presently I am Unauthorized for some reason)
+                            let channel = Channel(channelTitle: name, channelDescription: channelDescription, id: id) // builds individual channel array
+                            self.channels.append(channel) // adds individual channel array to array of channels
+                        }
+                        print(self.channels[0].channelTitle) // Jonny testing JSON parsing the above way
+                    }
+                } catch {
+                    debugPrint(error) // Student Adrian
+                }
+                completion(true)
                 
             } else {
                 completion(false)

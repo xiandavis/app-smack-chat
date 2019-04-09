@@ -94,7 +94,7 @@ class AuthService { // STEP 17.
                     let json = try JSON(data: data) // student Adrian added try keyword. var from guard statement used as argument in JSON obj, assigned to another var
                     self.userEmail = json["user"].stringValue // parsing out values in JSON obj to properties of class AuthService()
                     self.authToken = json["token"].stringValue // parsing out values in JSON obj to properties of class AuthService()
-                } catch { // student Adrian added catch statement and print statement below
+                } catch { // student Adrian added statement and print statement below
                     debugPrint(error)
                 }
                 
