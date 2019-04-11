@@ -35,13 +35,13 @@ class SocketService: NSObject {
     }
     
     func getChannel(completion: @escaping CompletionHandler) { // STEP 142.
-        socket.on("channelCreated") { (dataArray, ack) in // .on meaning we are listening for even called channelCreated, and the data array that comes back from that is the below 4 objects was (event: String, callback: NormalCallback). Hitting return on NormalCallback editor placeholder revealed ([Any], SocketAckEmitter), where the first param is an array of type Any, and SocketAckEmitter means Socket Acknowledge Emmitter.
-            guard let channelId = dataArray[0] as? String else { return }
-            guard let channelName = dataArray[1] as? String else { return }
-            guard let channelDesc = dataArray[2] as? String else { return }
-            guard let __v = dataArray[3] as? Int else { return } // parsing JSON the Swift 4 way, I'm on my own here
+        socket.on("channelCreated") { (dataArray, ack) in // .on meaning we are observing/listening for event called channelCreated, and the data array that comes back from that is the below 4 objects was (event: String, callback: NormalCallback). Hitting return on NormalCallback editor placeholder revealed ([Any], SocketAckEmitter), where the first param is an array of type Any, and SocketAckEmitter means Socket Acknowledge Emmitter, ack means acknowledgement
+            guard let channelName = dataArray[0] as? String else { return }
+            guard let channelDesc = dataArray[1] as? String else { return }
+            guard let channelId = dataArray[2] as? String else { return }
+//            guard let __v = dataArray[3] as? Int else { return } // parsing JSON the Swift 4 way, I'm on my own here
             
-            let newChannel = Channel(_id: channelId, name: channelName, description: channelDesc, __v: __v) // parsing JSON the Swift 4 way, I'm on my own here
+            let newChannel = Channel(channelTitle: channelName, channelDescription: channelDesc, id: channelId) // parsing JSON the Swift 3 way
             MessageService.instance.channels.append(newChannel)
             completion(true)
         }

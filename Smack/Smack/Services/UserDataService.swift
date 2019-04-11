@@ -75,5 +75,6 @@ class UserDataService { // STEP 40.
         AuthService.instance.isLoggedIn = false
         AuthService.instance.userEmail = ""
         AuthService.instance.authToken = ""
+        MessageService.instance.clearChannels() // STEP 147. called to clear channel array on logout
     }
 }

@@ -24,6 +24,9 @@ class ChannelVC: UIViewController, UITableViewDelegate, UITableViewDataSource { 
         tableView.dataSource = self
         self.revealViewController().rearViewRevealWidth = self.view.frame.size.width - 60 // STEP 5. experiement with different values here
         NotificationCenter.default.addObserver(self, selector: #selector(ChannelVC.userDataDidChange(_:)), name: NOTIF_USER_DATA_DID_CHANGE, object: nil) // STEP 79. Observer is listening for our notification triggered after successfully creating a user, when we hear it we call ChannelVC.userDataDidChange(_:). Was (observer: Any, selector: Selector, name: NSNotification.Name?, object: Any?) -- before filling in selector, Jonny defines func userDataDidChange() below
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(ChannelVC.channelsLoaded(_:)), name: NOTIF_CHANNELS_LOADED, object: nil) // STEP 158.
+        
         SocketService.instance.getChannel { (success) in // STEP 143.
             if success {
                 self.tableView.reloadData()
@@ -37,9 +40,11 @@ class ChannelVC: UIViewController, UITableViewDelegate, UITableViewDataSource { 
 
     // Jonny deletes boilerplate code here
     @IBAction func addChannelPressed(_ sender: Any) { // STEP 136.
-        let addChannel = AddChannelVC()
-        addChannel.modalPresentationStyle = .custom
-        present(addChannel, animated: true, completion: nil)
+        if AuthService.instance.isLoggedIn { // STEP 144. allows creating channel only after login
+            let addChannel = AddChannelVC()
+            addChannel.modalPresentationStyle = .custom
+            present(addChannel, animated: true, completion: nil)
+        }
     }
     
     @IBAction func loginBtnPressed(_ sender: Any) { // STEP 8b.
@@ -57,6 +62,10 @@ class ChannelVC: UIViewController, UITableViewDelegate, UITableViewDataSource { 
         setUpUserInfo() // STEP 113.
     }
     
+    @objc func channelsLoaded(_ notif: Notification) { // STEP 157.
+        tableView.reloadData()
+    }
+    
     func setUpUserInfo() { // STEP 109.
         if AuthService.instance.isLoggedIn { // Updates user image and name once logged in
             loginBtn.setTitle(UserDataService.instance.name, for: .normal)
@@ -66,6 +75,7 @@ class ChannelVC: UIViewController, UITableViewDelegate, UITableViewDataSource { 
             loginBtn.setTitle("Login", for: .normal) // set back to default image and name after logging out
             userImg.image = UIImage(named: "menuProfileIcon")
             userImg.backgroundColor = UIColor.clear
+            tableView.reloadData() // STEP 148.
         }
     }
     
@@ -85,5 +95,12 @@ class ChannelVC: UIViewController, UITableViewDelegate, UITableViewDataSource { 
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { // 3rd req't of protocol UITableViewDataSource
         return MessageService.instance.channels.count // however many channels there are
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { // STEP 160.
+        let channel = MessageService.instance.channels[indexPath.row]
+        MessageService.instance.selectedChannel = channel
+        NotificationCenter.default.post(name: NOTIF_CHANNEL_SELECTED, object: nil)
+        self.revealViewController().revealToggle(animated: true)
     }
 }

@@ -31,7 +31,7 @@ class ChannelCell: UITableViewCell {
     }
     
     func configureCell(channel : Channel) {
-        let title = channel.name ??  "" // ?? = no coalescing operator: if you can't find a value there, then return an empty string. Jonny using channelTitle instead of name
+        let title = channel.channelTitle ??  "" //.name ?? "" // ?? = no coalescing operator: if you can't find a value there, then return an empty string. Jonny using channelTitle instead of name
         channelName.text = "#\(title)"
     }
 }

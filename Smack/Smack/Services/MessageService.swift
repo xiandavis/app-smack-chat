@@ -15,6 +15,7 @@ class MessageService {
     static let instance = MessageService() // STEP 115. Jonny asks What are we going to put in here? Messages and channels that will hold the messages, so we need to create some Models
     
     var channels = [Channel]() // STEP 117. channels is an array of type Channel
+    var selectedChannel : Channel? // STEP 146. ? because no channel selected on login
     
     func findAllChannel(completion: @escaping CompletionHandler) { // STEP 120.
         Alamofire.request(URL_GET_CHANNELS, method: .get, parameters: nil, encoding: JSONEncoding.default, headers: BEARER_HEADER).responseJSON { (response) in // Note that Jonny uses [method get] 'response' instead of [method post] 'success', as he did in AuthService.swift
@@ -41,7 +42,8 @@ class MessageService {
                             let channel = Channel(channelTitle: name, channelDescription: channelDescription, id: id) // builds individual channel array
                             self.channels.append(channel) // adds individual channel array to array of channels
                         }
-                        print(self.channels[0].channelTitle) // Jonny testing JSON parsing the above way
+                        //print(self.channels[0].channelTitle) //.name) // Jonny testing JSON parsing the above way
+                        NotificationCenter.default.post(name: NOTIF_CHANNELS_LOADED, object: nil) // STEP 156.
                     }
                 } catch {
                     debugPrint(error) // Student Adrian
@@ -53,5 +55,9 @@ class MessageService {
                 debugPrint(response.result.error as Any)
             }
         }
+    }
+    
+    func clearChannels() { // STEP 145. clears out our channel array, will be called to prevent channels persisting beyond login session
+        channels.removeAll()
     }
 }

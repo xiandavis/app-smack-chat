@@ -8,7 +8,7 @@
 
 import Foundation
 import Alamofire // STEP 20. A cocoapod, built on top of URL sessions, easier to work with web requests. See section 6: lesson 63 for installation.
-import SwiftyJSON // STEP 39.
+import SwiftyJSON // STEP 39. A cocoapod, simplifies working with JSON
 
 class AuthService { // STEP 17.
     
@@ -27,7 +27,7 @@ class AuthService { // STEP 17.
     
     var authToken: String {
         get {
-            return defaults.value(forKey: TOKEN_KEY) as! String
+            return defaults.value(forKey: TOKEN_KEY) as? String ?? "" // Student Katherine R solution resolves crash on 2nd simuator instance, was as! String
         }
         set {
             defaults.set(newValue, forKey: TOKEN_KEY)
@@ -36,7 +36,7 @@ class AuthService { // STEP 17.
     
     var userEmail: String {
         get { // Jonny copies getters/ setters from above, modifies
-            return defaults.value(forKey: USER_EMAIL) as! String
+            return defaults.value(forKey: USER_EMAIL) as? String ?? "" // See above comment
         }
         set {
             defaults.set(newValue, forKey: USER_EMAIL)
