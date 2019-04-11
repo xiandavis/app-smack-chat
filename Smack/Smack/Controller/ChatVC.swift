@@ -14,9 +14,13 @@ class ChatVC: UIViewController {
     @IBOutlet weak var menuBtn: UIButton! // STEP 2. Jonny understands it may seem strange to have a button be an outlet rather than an action, but he says we will manually implement the action associated with the button inside viewDidLoad() below
     
     @IBOutlet weak var channelNameLbl: UILabel! // STEP 153.
+    @IBOutlet weak var messageTxtBox: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.bindToKeyboard() // STEP 176.
+        let tap = UITapGestureRecognizer(target: self, action: #selector(ChatVC.handleTap)) // STEP 178.
+        view.addGestureRecognizer(tap)
         menuBtn.addTarget(self.revealViewController(), action: #selector(SWRevealViewController.revealToggle(_:)), for: .touchUpInside) // STEP 3. The param Target is self.revealViewController(), param Selector is a objC method we are going to invoke (the method specifically being revealToggle()--Jonny ⌘clicks revealToggle() to Jump to Definition to read comments above it describing how to use it), param UIControlEvents is .touchUpInside
         self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer()) // STEP 4. gestureRecognizer: UIGestureRecognizer is self.revealViewController().panGestureRecognizer(), panGestureRecognizer is for slide motion
         self.view.addGestureRecognizer(self.revealViewController().tapGestureRecognizer()) // same as above, tapGestureRecognizer is for tap motion
@@ -37,8 +41,7 @@ class ChatVC: UIViewController {
 //        }
         
     }
-    // Jonny deletes boilerplate code here
-    
+    // Selectors
     @objc func userDataDidChange(_ notif: Notification) { // STEP 150. copied from ChannelVC.userDataDidChange(), for use in .addObserver() above
         if AuthService.instance.isLoggedIn { // STEP 152.
             // get channels
@@ -52,16 +55,48 @@ class ChatVC: UIViewController {
         updateWithChannel() // STEP 164.
     }
     
+    @objc func handleTap() { // STEP 177. to dismiss keyboard after typing in message box
+        view.endEditing(true) // click endEditing -> Quick Help, Description
+    }
+    
     func updateWithChannel() { // STEP 163.
         let channelName = MessageService.instance.selectedChannel?.channelTitle ?? "" // if can't find non-optional string, then set to empty string
         channelNameLbl.text = "#\(channelName)" // STEP 165.
+        getMessages() // STEP 173.
+    }
+    
+    @IBAction func sendMsgPressed(_ sender: Any) { // STEP 174.
+        if AuthService.instance.isLoggedIn { // STEP 179.
+            guard let channelId = MessageService.instance.selectedChannel?.id else { return }
+            guard let message = messageTxtBox.text else { return }
+            
+            SocketService.instance.addMessage(messageBody: message, userId: UserDataService.instance.id, channelId: channelId, completion: { (success) in
+                if success {
+                    self.messageTxtBox.text = ""
+                    self.messageTxtBox.resignFirstResponder()
+                }
+            })
+        }
     }
     
     func onLoginGetMessages() { // STEP 154b.
         MessageService.instance.findAllChannel { (success) in
             if success {
                 // Do stuff with channels
+                if MessageService.instance.channels.count > 0 { // STEP 172. if there is at least one existing channel
+                    MessageService.instance.selectedChannel = MessageService.instance.channels[0] // set the current channel to the first channel in the array
+                    self.updateWithChannel()
+                } else {
+                    self.channelNameLbl.text = "No channels yet!"
+                }
             }
+        }
+    }
+    
+    func getMessages() {
+        guard let channelId = MessageService.instance.selectedChannel?.id else { return }
+        MessageService.instance.findAllMessageForChannel(channelId: channelId) { (success) in
+            
         }
     }
 }

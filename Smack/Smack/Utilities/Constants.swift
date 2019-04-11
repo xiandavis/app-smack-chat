@@ -20,6 +20,7 @@ let URL_LOGIN = "\(BASE_URL)account/login" // STEP 30. red can be seen in mac ch
 let URL_USER_ADD = "\(BASE_URL)user/add" // STEP 42.
 let URL_USER_BY_EMAIL = "\(BASE_URL)user/byEmail/" // STEP 97. Postman URL shows extra forward slash before user, but adding one here threw error "JSON text did not start with array or object and option to allow fragments not set."
 let URL_GET_CHANNELS = "\(BASE_URL)channel/" // STEP 118.
+let URL_GET_MESSAGES = "\(BASE_URL)message/byChannel" // STEP 167.
 
 // Colors
 let smackPurplePlaceholder = #colorLiteral(red: 0.3254901961, green: 0.4215201139, blue: 0.7752227187, alpha: 0.5) // STEP 68. previously used hex # 4254B9 [literal], 50% opacity
