@@ -8,17 +8,24 @@
 
 import UIKit
 
-class ChatVC: UIViewController {
+class ChatVC: UIViewController, UITableViewDelegate, UITableViewDataSource { // STEP 182.
     
     // Outlets - Jonny finds ^dragging from DO to here more accurate than ^dragging from the button in SB to here
     @IBOutlet weak var menuBtn: UIButton! // STEP 2. Jonny understands it may seem strange to have a button be an outlet rather than an action, but he says we will manually implement the action associated with the button inside viewDidLoad() below
     
     @IBOutlet weak var channelNameLbl: UILabel! // STEP 153.
     @IBOutlet weak var messageTxtBox: UITextField!
+    @IBOutlet weak var tableView: UITableView! // STEP 181.
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.bindToKeyboard() // STEP 176.
+        tableView.delegate = self // STEP 183.
+        tableView.dataSource = self
+        
+        tableView.estimatedRowHeight = 80 // STEP 186.
+        tableView.rowHeight = UITableViewAutomaticDimension
+        
         let tap = UITapGestureRecognizer(target: self, action: #selector(ChatVC.handleTap)) // STEP 178.
         view.addGestureRecognizer(tap)
         menuBtn.addTarget(self.revealViewController(), action: #selector(SWRevealViewController.revealToggle(_:)), for: .touchUpInside) // STEP 3. The param Target is self.revealViewController(), param Selector is a objC method we are going to invoke (the method specifically being revealToggle()--Jonny ⌘clicks revealToggle() to Jump to Definition to read comments above it describing how to use it), param UIControlEvents is .touchUpInside
@@ -96,7 +103,27 @@ class ChatVC: UIViewController {
     func getMessages() {
         guard let channelId = MessageService.instance.selectedChannel?.id else { return }
         MessageService.instance.findAllMessageForChannel(channelId: channelId) { (success) in
-            
+            if success { // STEP 185.
+                self.tableView.reloadData()
+            }
         }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell { // STEP 184.
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "messageCell", for: indexPath) as? MessageCell {
+            let message = MessageService.instance.messages[indexPath.row]
+            cell.configureCell(message: message)
+            return cell
+        } else {
+            return UITableViewCell()
+        }
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return MessageService.instance.messages.count
     }
 }
