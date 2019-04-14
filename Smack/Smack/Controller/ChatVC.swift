@@ -16,6 +16,10 @@ class ChatVC: UIViewController, UITableViewDelegate, UITableViewDataSource { // 
     @IBOutlet weak var channelNameLbl: UILabel! // STEP 153.
     @IBOutlet weak var messageTxtBox: UITextField!
     @IBOutlet weak var tableView: UITableView! // STEP 181.
+    @IBOutlet weak var sendBtn: UIButton! // STEP 192.
+    
+    // Variables
+    var isTyping = false // STEP 194.
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +29,7 @@ class ChatVC: UIViewController, UITableViewDelegate, UITableViewDataSource { // 
         
         tableView.estimatedRowHeight = 80 // STEP 186.
         tableView.rowHeight = UITableViewAutomaticDimension
+        sendBtn.isHidden = true // STEP 195.
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(ChatVC.handleTap)) // STEP 178.
         view.addGestureRecognizer(tap)
@@ -34,6 +39,16 @@ class ChatVC: UIViewController, UITableViewDelegate, UITableViewDataSource { // 
         
         NotificationCenter.default.addObserver(self, selector: #selector(ChatVC.userDataDidChange(_:)), name: NOTIF_USER_DATA_DID_CHANGE, object: nil) // STEP 149. Created statement, STEP 151. updated #selector, after moving userDataDidChange() OUTSIDE of viewDidLoad() *DUH!*
         NotificationCenter.default.addObserver(self, selector: #selector(ChatVC.channelSelected(_:)), name: NOTIF_CHANNEL_SELECTED, object: nil) // STEP 162. Creates after defining #selector below
+        
+        SocketService.instance.getChatMessage { (success) in // STEP 188a.
+            if success {
+                self.tableView.reloadData()
+                if MessageService.instance.messages.count > 0 { // STEP 189. scroll to bottom to reveal latest message
+                    let endIndex = IndexPath(row: MessageService.instance.messages.count - 1, section: 0)
+                    self.tableView.scrollToRow(at: endIndex, at: .bottom, animated: false)
+                }
+            } // STEP 188b. Jonny runs code, types message and it immediately appears!
+        }
         
         if AuthService.instance.isLoggedIn { // STEP 107. Jonny notes than when we send app to background and re-enter, a boolean variable saying if we are still logged in or not is set to true, but the app no longer shows all user info. To solve we need to check if we are Logged in; if so, we call Find User By Email and do our post notification that user data changed.
             AuthService.instance.findUserByEmail(completion: { (success) in
@@ -55,6 +70,7 @@ class ChatVC: UIViewController, UITableViewDelegate, UITableViewDataSource { // 
             onLoginGetMessages() // STEP 155a
         } else {
             channelNameLbl.text = "Please Log In" // STEP 154a.
+            tableView.reloadData() // STEP 191.
         }
     }
     
@@ -70,6 +86,18 @@ class ChatVC: UIViewController, UITableViewDelegate, UITableViewDataSource { // 
         let channelName = MessageService.instance.selectedChannel?.channelTitle ?? "" // if can't find non-optional string, then set to empty string
         channelNameLbl.text = "#\(channelName)" // STEP 165.
         getMessages() // STEP 173.
+    }
+    
+    @IBAction func messageBoxEditing(_ sender: Any) { // STEP 193.
+        if messageTxtBox.text == "" {
+            isTyping = false
+            sendBtn.isHidden = true
+        } else {
+            if isTyping == false {
+                sendBtn.isHidden = false
+            }
+            isTyping = true
+        }
     }
     
     @IBAction func sendMsgPressed(_ sender: Any) { // STEP 174.

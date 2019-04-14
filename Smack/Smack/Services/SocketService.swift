@@ -53,6 +53,24 @@ class SocketService: NSObject {
         completion(true)
     }
     
-    
+    func getChatMessage(completion: @escaping CompletionHandler) { // STEP 187. listening for event from server called messageCreated. if we receive it, with it we receive a dataArray. we parse out the data we want.
+        socket.on("messageCreated") { (dataArray, ack) in
+            guard let msgBody = dataArray[0] as? String else { return }
+            guard let channelId = dataArray[2] as? String else { return } // not using userId dataArray[1] in our message model
+            guard let userName = dataArray[3] as? String else { return }
+            guard let userAvatar = dataArray[4] as? String else { return }
+            guard let userAvatarColor = dataArray[5] as? String else { return }
+            guard let id = dataArray[6] as? String else { return }
+            guard let timeStamp = dataArray[7] as? String else { return }
+            
+            if channelId == MessageService.instance.selectedChannel?.id && AuthService.instance.isLoggedIn { // check to make sure the incoming message is on the current channel (only channel we care about).
+                let newMessage = Message(message: msgBody, userName: userName, channelId: channelId, userAvatar: userAvatar, userAvatarColor: userAvatarColor, id: id, timeStamp: timeStamp)
+                MessageService.instance.messages.append(newMessage) // add new message to message array
+                completion(true)
+            } else {
+                completion(false)
+            }
+        }
+    }
 
 }
