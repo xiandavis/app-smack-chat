@@ -12,8 +12,6 @@ class ChannelCell: UITableViewCell {
     
     // Outlets
     @IBOutlet weak var channelName: UILabel! // STEP 124.
-    
-    
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -33,5 +31,12 @@ class ChannelCell: UITableViewCell {
     func configureCell(channel : Channel) {
         let title = channel.channelTitle ??  "" //.name ?? "" // ?? = no coalescing operator: if you can't find a value there, then return an empty string. Jonny using channelTitle instead of name
         channelName.text = "#\(title)"
+        channelName.font = UIFont(name: "HelveticaNeue-Regular", size: 17) // STEP 211. default font
+        
+        for id in MessageService.instance.unreadChannels { // for each [not selected] channel someone has typed in (unread)
+            if id == channel.id {
+                channelName.font = UIFont(name: "HelveticaNeue-Bold", size: 22) // unreadChannel font bolded in channel list, so we know to look at unread message(s)
+            }
+        }
     }
 }

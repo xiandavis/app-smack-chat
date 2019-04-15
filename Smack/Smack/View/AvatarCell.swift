@@ -37,5 +37,4 @@ class AvatarCell: UICollectionViewCell { // STEP 53a.
         self.layer.cornerRadius = 10
         self.clipsToBounds = true
     }
-    
 }

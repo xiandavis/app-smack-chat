@@ -62,7 +62,6 @@ class UserDataService { // STEP 40.
         let aFloat = CGFloat(aUnwrapped.doubleValue)
         
         let newUIColor = UIColor(red: rFloat, green: gFloat, blue: bFloat, alpha: aFloat)
-        
         return newUIColor
     }
     

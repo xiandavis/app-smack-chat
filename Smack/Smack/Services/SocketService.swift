@@ -53,7 +53,10 @@ class SocketService: NSObject {
         completion(true)
     }
     
-    func getChatMessage(completion: @escaping CompletionHandler) { // STEP 187. listening for event from server called messageCreated. if we receive it, with it we receive a dataArray. we parse out the data we want.
+//    func getChatMessage(completion: @escaping CompletionHandler) { // STEP 187a. listening for event from server called messageCreated. if we receive it, with it we receive a dataArray. we parse out the data we want, STEP 204. func header obsolete, see below
+    
+    func getChatMessage(completion: @escaping (_ newMessage: Message) -> Void) { // STEP 205. changed completion handler from accepting type Bool to type Message
+        
         socket.on("messageCreated") { (dataArray, ack) in
             guard let msgBody = dataArray[0] as? String else { return }
             guard let channelId = dataArray[2] as? String else { return } // not using userId dataArray[1] in our message model
@@ -63,13 +66,16 @@ class SocketService: NSObject {
             guard let id = dataArray[6] as? String else { return }
             guard let timeStamp = dataArray[7] as? String else { return }
             
-            if channelId == MessageService.instance.selectedChannel?.id && AuthService.instance.isLoggedIn { // check to make sure the incoming message is on the current channel (only channel we care about).
-                let newMessage = Message(message: msgBody, userName: userName, channelId: channelId, userAvatar: userAvatar, userAvatarColor: userAvatarColor, id: id, timeStamp: timeStamp)
-                MessageService.instance.messages.append(newMessage) // add new message to message array
-                completion(true)
-            } else {
-                completion(false)
-            }
+            let newMessage = Message(message: msgBody, userName: userName, channelId: channelId, userAvatar: userAvatar, userAvatarColor: userAvatarColor, id: id, timeStamp: timeStamp) // STEP 187b. statement CREATED, STEP 203. statement MOVED outside of obsolete if statement below
+            
+            completion(newMessage) // STEP 206. type Message instead of type Bool below
+            
+//            if channelId == MessageService.instance.selectedChannel?.id && AuthService.instance.isLoggedIn { // STEP 187c. check to make sure the incoming message is on the current channel (only channel we care about).
+//                MessageService.instance.messages.append(newMessage) // add new message to message array
+//                completion(true)
+//            } else {
+//                completion(false)
+//            }
         }
     }
     
@@ -79,7 +85,5 @@ class SocketService: NSObject {
             guard let typingUsers = dataArray[0] as? [String: String] else { return } // KEY is user's name and VALUE is channelId from which they started typing
             completionHandler(typingUsers) // typingUsers is type dict of string key and value pairs
         }
-        
     }
-
 }

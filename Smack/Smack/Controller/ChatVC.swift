@@ -41,14 +41,25 @@ class ChatVC: UIViewController, UITableViewDelegate, UITableViewDataSource { // 
         NotificationCenter.default.addObserver(self, selector: #selector(ChatVC.userDataDidChange(_:)), name: NOTIF_USER_DATA_DID_CHANGE, object: nil) // STEP 149. Created statement, STEP 151. updated #selector, after moving userDataDidChange() OUTSIDE of viewDidLoad() *DUH!*
         NotificationCenter.default.addObserver(self, selector: #selector(ChatVC.channelSelected(_:)), name: NOTIF_CHANNEL_SELECTED, object: nil) // STEP 162. Creates after defining #selector below
         
-        SocketService.instance.getChatMessage { (success) in // STEP 188a.
-            if success {
+//        SocketService.instance.getChatMessage { (success) in // STEP 188a.
+//            if success {
+//                self.tableView.reloadData()
+//                if MessageService.instance.messages.count > 0 { // STEP 189. scroll to bottom to reveal latest message
+//                    let endIndex = IndexPath(row: MessageService.instance.messages.count - 1, section: 0)
+//                    self.tableView.scrollToRow(at: endIndex, at: .bottom, animated: false)
+//                }
+//            } // STEP 188b. Jonny runs code, types message and it immediately appears!
+//        }
+        SocketService.instance.getChatMessage { (newMessage) in // STEP 207. Change of completion handler's parameter to type Message renders above call obsolete. was (completion: (Message) -> Void), ⏎ at editor placeholder becomes (Message), entered newMessage
+            
+            if newMessage.channelId == MessageService.instance.selectedChannel?.id && AuthService.instance.isLoggedIn {
+                MessageService.instance.messages.append(newMessage)
                 self.tableView.reloadData()
-                if MessageService.instance.messages.count > 0 { // STEP 189. scroll to bottom to reveal latest message
+                if MessageService.instance.messages.count > 0 {
                     let endIndex = IndexPath(row: MessageService.instance.messages.count - 1, section: 0)
                     self.tableView.scrollToRow(at: endIndex, at: .bottom, animated: false)
                 }
-            } // STEP 188b. Jonny runs code, types message and it immediately appears!
+            }
         }
         
         SocketService.instance.getTypingUsers { (typingUsers) in // STEP 198. was (completionHandler: ([String : String]) -> Void); after hitting ⏎ the editor placeholder becomes ([String : String]); we then replace with (typingUsers)

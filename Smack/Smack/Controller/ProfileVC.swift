@@ -23,9 +23,6 @@ class ProfileVC: UIViewController {
 //        profileImg.image = UIImage(named: UserDataService.instance.avatarName)
 //        userName. = UserDataService.instance.name
 //        userEmail.text = UserDataService.instance.email
-        
-        
-
 
         // Do any additional setup after loading the view.
     }

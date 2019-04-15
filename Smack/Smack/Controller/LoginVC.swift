@@ -14,7 +14,6 @@ class LoginVC: UIViewController {
     @IBOutlet weak var usernameTxt: UITextField!
     @IBOutlet weak var passwordTxt: UITextField!
     @IBOutlet weak var spinner: UIActivityIndicatorView!
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +47,6 @@ class LoginVC: UIViewController {
                 })
             }
         }
-        
     }
     
     func setUpView() { // STEP 104. Jonny copies name & email from same func inside CreateAccountVC, replaces latter with password. Perhaps instead of usernameTxt should be emailTxt and change placeholder on Login screen?
@@ -56,5 +54,4 @@ class LoginVC: UIViewController {
         usernameTxt.attributedPlaceholder = NSAttributedString(string: "username", attributes: [NSAttributedStringKey.foregroundColor: smackPurplePlaceholder]) // STEP 69. color of placeholder text cannot be changed from IB directly
         passwordTxt.attributedPlaceholder = NSAttributedString(string: "password", attributes: [NSAttributedStringKey.foregroundColor: smackPurplePlaceholder]) // STEP 71. color of placeholder text cannot be changed from IB directly
     }
-    
 }

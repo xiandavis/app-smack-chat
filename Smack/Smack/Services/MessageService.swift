@@ -16,6 +16,7 @@ class MessageService {
     
     var channels = [Channel]() // STEP 117. channels is an array of type Channel
     var messages = [Message]() // STEP 169. only stores current channel's messages
+    var unreadChannels = [String]() // STEP 209. stores channelIds
     var selectedChannel : Channel? // STEP 146. ? because no channel selected on login
     
     func findAllChannel(completion: @escaping CompletionHandler) { // STEP 120a.

@@ -15,7 +15,6 @@ class ChannelVC: UIViewController, UITableViewDelegate, UITableViewDataSource { 
     @IBOutlet weak var userImg: CircleImage! // STEP 81.
     @IBOutlet weak var tableView: UITableView! // STEP 126.
     @IBAction func prepareForUnwind(segue: UIStoryboardSegue){ // STEP 14. Jonny adds this statement manually, unconnected. Perhaps this should be moved down with other IBAction?
-        
     }
     
     override func viewDidLoad() {
@@ -29,6 +28,13 @@ class ChannelVC: UIViewController, UITableViewDelegate, UITableViewDataSource { 
         
         SocketService.instance.getChannel { (success) in // STEP 143.
             if success {
+                self.tableView.reloadData()
+            }
+        }
+        
+        SocketService.instance.getChatMessage { (newMessage) in // STEP 208.
+            if newMessage.channelId != MessageService.instance.selectedChannel?.id && AuthService.instance.isLoggedIn { // STEP 210. notice this time Jonny didn't use [if] AuthService.instance.isLoggedIn '== true'
+                MessageService.instance.unreadChannels.append(newMessage.channelId)
                 self.tableView.reloadData()
             }
         }
@@ -97,10 +103,18 @@ class ChannelVC: UIViewController, UITableViewDelegate, UITableViewDataSource { 
         return MessageService.instance.channels.count // however many channels there are
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { // STEP 160.
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { // STEP 160a.
         let channel = MessageService.instance.channels[indexPath.row]
         MessageService.instance.selectedChannel = channel
-        NotificationCenter.default.post(name: NOTIF_CHANNEL_SELECTED, object: nil)
+        
+        if MessageService.instance.unreadChannels.count > 0 { // STEP 212.
+            MessageService.instance.unreadChannels = MessageService.instance.unreadChannels.filter{$0 != channel.id} // filters out selected channel (constant above) that we just clicked on
+        }
+        let index = IndexPath(row: indexPath.row, section: 0)
+        tableView.reloadRows(at: [indexPath], with: .none) // reloading channel because it is no longer unread, so font changes back from bold to regular
+        tableView.selectRow(at: index, animated: false, scrollPosition: .none) // re-selects current channel
+        
+        NotificationCenter.default.post(name: NOTIF_CHANNEL_SELECTED, object: nil) // STEP 160b.
         self.revealViewController().revealToggle(animated: true)
     }
 }
