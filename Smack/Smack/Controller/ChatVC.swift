@@ -17,6 +17,7 @@ class ChatVC: UIViewController, UITableViewDelegate, UITableViewDataSource { // 
     @IBOutlet weak var messageTxtBox: UITextField!
     @IBOutlet weak var tableView: UITableView! // STEP 181.
     @IBOutlet weak var sendBtn: UIButton! // STEP 192.
+    @IBOutlet weak var typingUsersLbl: UILabel! // STEP 196.
     
     // Variables
     var isTyping = false // STEP 194.
@@ -48,6 +49,33 @@ class ChatVC: UIViewController, UITableViewDelegate, UITableViewDataSource { // 
                     self.tableView.scrollToRow(at: endIndex, at: .bottom, animated: false)
                 }
             } // STEP 188b. Jonny runs code, types message and it immediately appears!
+        }
+        
+        SocketService.instance.getTypingUsers { (typingUsers) in // STEP 198. was (completionHandler: ([String : String]) -> Void); after hitting ⏎ the editor placeholder becomes ([String : String]); we then replace with (typingUsers)
+            guard let channelId = MessageService.instance.selectedChannel?.id else { return } // check to see if users are in selected channel; if no channel selected, we exit
+            var names = "" // hold names of who is typing
+            var numberOfTypers = 0
+            
+            for (typingUser, channel) in typingUsers { // loop thru dictionary key/value pairs
+                if typingUser != UserDataService.instance.name /* me */ && channel == channelId /* selected channel */ { // then we will add users' name(s) to var names
+                    if names == "" { // if it's either the first person in the dictionary loop or it's the only person typing
+                        names = typingUser
+                    } else {
+                        names = "\(names), \(typingUser)" // if someone's name is already in dictionary
+                    }
+                    numberOfTypers += 1
+                }
+            }
+            
+            if numberOfTypers > 0 && AuthService.instance.isLoggedIn == true { // verbage of label. is == true necessary?
+                var verb = "is"
+                if numberOfTypers > 1 {
+                    verb = "are"
+                }
+                self.typingUsersLbl.text = "\(names) \(verb) typing a message"
+            } else {
+                self.typingUsersLbl.text = ""
+            }
         }
         
         if AuthService.instance.isLoggedIn { // STEP 107. Jonny notes than when we send app to background and re-enter, a boolean variable saying if we are still logged in or not is set to true, but the app no longer shows all user info. To solve we need to check if we are Logged in; if so, we call Find User By Email and do our post notification that user data changed.
@@ -88,14 +116,17 @@ class ChatVC: UIViewController, UITableViewDelegate, UITableViewDataSource { // 
         getMessages() // STEP 173.
     }
     
-    @IBAction func messageBoxEditing(_ sender: Any) { // STEP 193.
-        if messageTxtBox.text == "" {
+    @IBAction func messageBoxEditing(_ sender: Any) { // STEP 193a.
+        guard let channelId = MessageService.instance.selectedChannel?.id else { return } // STEP 199.
+        if messageTxtBox.text == "" { // STEP 193b.
             isTyping = false
             sendBtn.isHidden = true
-        } else {
+            SocketService.instance.socket.emit("stopType", UserDataService.instance.name, channelId) // STEP 200.
+        } else { // STEP 193c.
             if isTyping == false {
                 sendBtn.isHidden = false
-            }
+                SocketService.instance.socket.emit("startType", UserDataService.instance.name, channelId) // STEP 201.
+            } // STEP 193d.
             isTyping = true
         }
     }
@@ -109,6 +140,7 @@ class ChatVC: UIViewController, UITableViewDelegate, UITableViewDataSource { // 
                 if success {
                     self.messageTxtBox.text = ""
                     self.messageTxtBox.resignFirstResponder()
+                    SocketService.instance.socket.emit("stopType", UserDataService.instance.name, channelId) // STEP 202.
                 }
             })
         }

@@ -72,5 +72,14 @@ class SocketService: NSObject {
             }
         }
     }
+    
+    func getTypingUsers(_ completionHandler: @escaping (_ typingUsers: [String: String]) -> Void) { // STEP 197. Jonny compares (_ typingUsers: [String: String]) -> Void) to the completion handler we've been using; instead of 'success' we call it 'typingUsers' and instead of having a param of type bool it is of type dictionary, consisting of keys of type String and values of type String
+        
+        socket.on("userTypingUpdate") { (dataArray, ack) in
+            guard let typingUsers = dataArray[0] as? [String: String] else { return } // KEY is user's name and VALUE is channelId from which they started typing
+            completionHandler(typingUsers) // typingUsers is type dict of string key and value pairs
+        }
+        
+    }
 
 }
